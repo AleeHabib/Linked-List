@@ -5,7 +5,7 @@ struct Node
     int data;   // will hold any integer value
     Node *next; // will hold the address of the next value
 };
-int *append(Node *&head, int data)
+void append(Node *&head, int data)
 {
     Node *new_node = new Node;
     new_node->data = data;
@@ -13,7 +13,7 @@ int *append(Node *&head, int data)
     if (head)
     {
         Node *current = head;
-        while (current)
+        while (current->next)
         {
             current = current->next;
         }
@@ -26,6 +26,19 @@ int *append(Node *&head, int data)
 }
 int main()
 {
+    Node *head = nullptr; // Starting with an empty list
 
+    // append(head, 1);
+    // append(head, 2);
+    // append(head, 3);
+
+    // Output the list
+    Node *current = head;
+    while (current)
+    {
+        cout << current->data << " -> ";
+        current = current->next;
+    }
+    cout << "None";
     return 0;
 }
