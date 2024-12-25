@@ -5,7 +5,7 @@ struct Node
     int data;   // will hold any integer value
     Node *next; // will hold the address of the next value
 };
-int *append(Node *&head, int data)
+void append(Node *&head, int data)
 {
     Node *new_node = new Node;
     new_node->data = data;
