@@ -36,7 +36,7 @@ void traverse(Node *head) // function to traverse through each node
 }
 int main()
 {
-    Node *head = nullptr; // Starting with an empty list
+    Node *head = nullptr; // starting with an empty list
 
     append(head, 1);
     append(head, -3);
