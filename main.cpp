@@ -41,7 +41,7 @@ int main()
     append(head, 1);
     append(head, -3);
     append(head, 7);
-
+    append(head, 26); //adding one more node at the end
     traverse(head);
     return 0;
 }
