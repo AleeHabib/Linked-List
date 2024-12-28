@@ -9,7 +9,7 @@ void append(Node *&head, int data) // function to append new node at the end
 {
     Node *new_node = new Node;
     new_node->data = data;
-    new_node->next = nullptr;
+    new_node->next = NULL;
     if (head) // only true if node(s) already exist
     {
         Node *current = head;
@@ -36,7 +36,7 @@ void traverse(Node *head) // function to traverse through each node
 }
 int main()
 {
-    Node *head = nullptr; // starting with an empty list
+    Node *head = NULL; // starting with an empty list
 
     append(head, 1);
     append(head, -3);
