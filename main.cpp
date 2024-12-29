@@ -88,6 +88,36 @@ void delete_begin(Node *&head) // fn to delete the first node
     cout << "First node successfully deleted." << endl; // status message
 }
 
+void delete_at(Node *&head, const int pos)
+{
+    if (head == NULL)
+    {
+        cout << "List is empty" << endl; // Head pointer is null mean no list is created
+        return;                          // should immediately exit this function once this case is handled, (list doesn't exist) so rest of the fn doesn't execute
+    }
+    Node *temp = head;                  //Storing head ptr to temp
+    if (pos == 0)
+    {
+        head = head->next;            //moving ptr to next node
+        delete temp;                  // Node Deleted
+        cout << "Node successfully deleted at position " << pos << endl;
+        return;                       // should immediately exit this function once this case is handled
+    }
+    for(int i=0;temp!=NULL&&i<pos-1;i++)
+    {
+        temp=temp->next;
+    }
+    if(temp==NULL||temp->next==NULL)
+    {
+        cout << "Position doesn't exist."<<endl;
+        return;
+    }
+    Node *next = temp->next->next;
+    delete temp->next;
+    temp->next = next;
+    cout << "Node successfully deleted at position " << pos << endl;
+}
+
 void delete_end(Node *&head) // fn to delete the last node
 {
     Node *temp = head; // storing head in temp pointer
@@ -169,6 +199,11 @@ int main()
             break;
         case 5:
             delete_end(head); // Calling delete_end fn that delete last node
+            break;
+        case 6:
+            cout << "Enter the position you want to delete (indexing starts from 0): ";
+            cin >> position;
+            delete_at(head, position); // Calling delete_at fn that delete node at specific position
             break;
         case 8:
             traverse(head); // Calling traverse fn that print linked list
