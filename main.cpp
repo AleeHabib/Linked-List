@@ -5,12 +5,32 @@ struct Node
     int data;   // will hold any integer value
     Node *next; // will hold the address of the next value
 };
-Node *head = nullptr;                        // head pointer is global and initialized to null
+int countNodes(Node *head) // fn to count amd return the number of nodes present in the list
+{
+    int count = 0;
+    Node *current = head;
+    while (current) // traversing till the end (including the last node itself)
+    {
+        current = current->next;
+        count += 1;
+    }
+
+    return count;
+}
+Node *head = NULL; // head pointer is global and initialized to null
+void insert_begin(Node *&head, const int data)
+{
+    Node *new_node = new Node;
+    new_node->data = data;
+    new_node->next = head; // setting the next pointer of new node to the previous head of the list
+    head = new_node;       // changing head to the newly added node
+    cout << "Node succesfully added" << endl;
+}
 void insert_end(Node *&head, const int data) // fn to append new node at the end
 {
     Node *new_node = new Node;
     new_node->data = data;
-    new_node->next = nullptr;
+    new_node->next = NULL;
     if (head) // only true if node(s) already exist
     {
         Node *current = head;
@@ -19,15 +39,44 @@ void insert_end(Node *&head, const int data) // fn to append new node at the end
             current = current->next;
         }
         current->next = new_node; // setting next of the older node to point to new node (which has it's next pointing to nullptr)
+        cout << "Node successfully added" << endl;
     }
     else
     {
         head = new_node; // if list is empty, sets the head as the new node
+        cout << "Node successfully added" << endl;
+    }
+}
+void insert_at(Node *&head, const int data, const int pos) // fn to insert a new node at a specific position
+{
+    Node *new_node = new Node;
+    new_node->data = data;
+    Node *current = head;
+    int length = countNodes(head) - 1; // length of the list - 1 (because indexes are one less than length)
+    if (pos > length)                  // if user gives a out of bound position
+    {
+        cout << "Position doesn't exist." << endl;
+    }
+    else if (pos == 0) // if pos == 0 (head)
+    {
+        new_node->next = head;
+        head = new_node;
+        cout << "Node successfully added at position " << pos << endl;
+    }
+    else // positions other than head
+    {
+        for (int i = 0; i < pos - 1; i++) // looping till we reach the node just before the position we want our new data to be inserted at
+        {
+            current = current->next; // Move to the next node
+        }
+        new_node->next = current->next; // pointing the new node to the node which is the next node of the current node
+        current->next = new_node;       // setting the current node to point to the new node (which re-establishes the link after inserting)
+        cout << "Node successfully added at position " << pos << endl;
     }
 }
 void delete_begin(Node *&head) // fn to delete the first node
 {
-    if (head == nullptr)
+    if (head == NULL)
     {
         cout << "List is empty" << endl; // Head pointer is null mean no list is created
         return;                          // should immediately exit this function once this case is handled, (list doesn't exist) so rest of the fn doesn't execute
@@ -36,31 +85,31 @@ void delete_begin(Node *&head) // fn to delete the first node
     Node *temp = head;                                  // copying the head node to a temporary node
     head = head->next;                                  // shifting head to next node
     delete temp;                                        // deleting the first node
-    cout << "First Node Successfully Deleted." << endl; // status message
+    cout << "First node successfully deleted." << endl; // status message
 }
 
 void delete_end(Node *&head) // fn to delete the last node
 {
     Node *temp = head; // storing head in temp pointer
-    if (head == nullptr)
+    if (head == NULL)
     { // if there is no node
         cout << "List is Empty." << endl;
         return; // should immediately exit this function once this case is handled, (list doesn't exist) so rest of the fn doesn't execute
     }
-    if (head->next == nullptr)
+    if (head->next == NULL)
     { // if there is one is node
         delete head;
-        head = nullptr;
-        cout << "Last Node Successfully Deleted." << endl;
+        head = NULL;
+        cout << "Last node successfully deleted." << endl;
         return; // should immediately exit this function once this case is handled, (only one node exists) so rest of the fn doesn't execute
     }
-    while (temp->next->next != nullptr) // traversing to the second last node
+    while (temp->next->next != NULL) // traversing to the second last node
     {
         temp = temp->next; // moving to the next node
     }
-    delete temp->next;    // deleting the last node
-    temp->next = nullptr; // setting null to secod last node
-    cout << "Last Node Successfully Deleted." << endl;
+    delete temp->next; // deleting the last node
+    temp->next = NULL; // setting null to secod last node
+    cout << "Last node successfully deleted." << endl;
     // doesn't require a return as there isn't any code after this case (more than one node) anyways
 }
 
@@ -89,16 +138,31 @@ int main()
         cout << "7. Delete by value" << endl;
         cout << "8. Traverse" << endl;
         cout << "9. Search" << endl;
-        cout << "10. Exit" << endl;
+        cout << "10. Count Nodes" << endl;
+        cout << "11. Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
 
         switch (choice)
         {
+        case 1:
+            cout << "Enter the value to be inserted: ";
+            cin >> data;
+            insert_begin(head, data);
+            break;
         case 2:
             cout << "Enter the value to be inserted: ";
             cin >> data;
             insert_end(head, data); // Calling append fn that add data in last in linked list
+            break;
+        case 3:
+            cout << "Enter the value to be inserted: ";
+            cin >> data;
+
+            cout << "Enter the position you want to insert at (indexing starts from 0): ";
+            cin >> position;
+
+            insert_at(head, data, position);
             break;
         case 4:
             delete_begin(head); // Calling delete_begin fn that delete first node
@@ -110,11 +174,14 @@ int main()
             traverse(head); // Calling traverse fn that print linked list
             break;
         case 10:
+            cout << "There are " << countNodes(head) << " elements in your list." << endl;
+            break;
+        case 11:
             cout << "Exiting..." << endl; // Exiting from program
             exit(0);
         default:
             cout << "Invalid choice!!!" << endl; // if user input invalid option
         }
-    } while (choice != 10);
+    } while (choice != 11);
     return 0;
 }
