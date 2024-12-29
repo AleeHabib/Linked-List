@@ -30,13 +30,13 @@ void delete_begin(Node *&head) // fn to delete the first node
     if (head == nullptr)
     {
         cout << "List is empty" << endl; // Head pointer is null mean no list is created
-        return;
+        return;                          // should immediately exit this function once this case is handled, (list doesn't exist) so rest of the fn doesn't execute
     }
 
-    Node *temp = head; // copying the head node to a temporary node
-    head = head->next; // shifting head to next node
-    delete temp;       // deleting the first node
-    cout << "First Node Successfully Deleted." << endl;
+    Node *temp = head;                                  // copying the head node to a temporary node
+    head = head->next;                                  // shifting head to next node
+    delete temp;                                        // deleting the first node
+    cout << "First Node Successfully Deleted." << endl; // status message
 }
 
 void delete_end(Node *&head) // fn to delete the last node
@@ -45,14 +45,14 @@ void delete_end(Node *&head) // fn to delete the last node
     if (head == nullptr)
     { // if there is no node
         cout << "List is Empty." << endl;
-        return;
+        return; // should immediately exit this function once this case is handled, (list doesn't exist) so rest of the fn doesn't execute
     }
     if (head->next == nullptr)
     { // if there is one is node
         delete head;
         head = nullptr;
         cout << "Last Node Successfully Deleted." << endl;
-        return;
+        return; // should immediately exit this function once this case is handled, (only one node exists) so rest of the fn doesn't execute
     }
     while (temp->next->next != nullptr) // traversing to the second last node
     {
@@ -61,6 +61,7 @@ void delete_end(Node *&head) // fn to delete the last node
     delete temp->next;    // deleting the last node
     temp->next = nullptr; // setting null to secod last node
     cout << "Last Node Successfully Deleted." << endl;
+    // doesn't require a return as there isn't any code after this case (more than one node) anyways
 }
 
 void traverse(Node *head) // function to traverse through each node
