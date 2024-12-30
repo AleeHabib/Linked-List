@@ -88,33 +88,39 @@ void delete_begin(Node *&head) // fn to delete the first node
     cout << "First node successfully deleted." << endl; // status message
 }
 
-void delete_at(Node *&head, const int pos)
-{
-    if (head == NULL)
-    {
-        cout << "List is empty" << endl; // Head pointer is null mean no list is created
-        return;                          // should immediately exit this function once this case is handled, (list doesn't exist) so rest of the fn doesn't execute
+void delete_at(Node *&head, int pos) {
+    Node *temp = head;
+    if (head == NULL) {
+        cout << "List is empty" << endl;
+        return; //if list is empty then exit
     }
-    Node *temp = head;                  //Storing head ptr to temp
-    if (pos == 0)
-    {
-        head = head->next;            //moving ptr to next node
-        delete temp;                  // Node Deleted
-        cout << "Node successfully deleted at position " << pos << endl;
-        return;                       // should immediately exit this function once this case is handled
-    }
-    for(int i=0;temp!=NULL&&i<pos-1;i++)
-    {
-        temp=temp->next;
-    }
-    if(temp==NULL||temp->next==NULL)
-    {
-        cout << "Position doesn't exist."<<endl;
+    if (pos == 0) { //if we've to delete fisrt node
+        head = head->next;
+        delete temp; // Head node ko delete karenge
+        cout << "Node successfully deleted." << endl;
         return;
     }
-    Node *next = temp->next->next;
-    delete temp->next;
-    temp->next = next;
+    if (pos > countNodes(head)) {  //if position exceed from range
+        cout << "Position doesn't exist." << endl;
+        return;
+    }
+    int count = 0;
+    while (temp != NULL && count < pos - 1) { // Traverse till before position of desired node
+        temp = temp->next;
+        count++;
+    }
+
+    // position invalid or last node
+    if (temp == NULL || temp->next == NULL) {
+        cout << "Position doesn't exist." << endl;
+        return;
+    }
+
+    // `temp->next` node ko delete karna:
+    Node *toDelete = temp->next;
+    temp->next = temp->next->next;
+    delete toDelete;
+
     cout << "Node successfully deleted at position " << pos << endl;
 }
 
