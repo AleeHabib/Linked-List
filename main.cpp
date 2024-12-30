@@ -52,8 +52,8 @@ void insert_at(Node *&head, const int data, const int pos) // fn to insert a new
     Node *new_node = new Node;
     new_node->data = data;
     Node *current = head;
-    int length = countNodes(head) - 1; // length of the list - 1 (because indexes are one less than length)
-    if (pos > length)                  // if user gives a out of bound position
+    int length = countNodes(head); // stores the length of the current list
+    if (pos >= length || pos < 0)  // if user gives a out of bound position
     {
         cout << "Position doesn't exist." << endl;
     }
@@ -88,39 +88,36 @@ void delete_begin(Node *&head) // fn to delete the first node
     cout << "First node successfully deleted." << endl; // status message
 }
 
-void delete_at(Node *&head, int pos) {
+void delete_at(Node *&head, const int pos) // fn to delete a node at a specific position
+{
     Node *temp = head;
-    if (head == NULL) {
+    int length = countNodes(head); // stores the length of the current list
+    if (pos >= length || pos < 0)  // checks if pos is out of bounds
+    {
+        cout << "Position doesn't exist." << endl;
+        return; // exits the loop immediately if pos is out of bounds
+    }
+    else if (head == NULL)
+    {
         cout << "List is empty" << endl;
-        return; //if list is empty then exit
+        return; // exits the loop immediately if the list is empty
     }
-    if (pos == 0) { //if we've to delete fisrt node
+    if (pos == 0) // if user wants to del head
+    {
         head = head->next;
-        delete temp; // Head node ko delete karenge
-        cout << "Node successfully deleted." << endl;
+        delete temp;
+        cout << "Node successfully deleted at position " << pos << endl;
         return;
     }
-    if (pos > countNodes(head)) {  //if position exceed from range
-        cout << "Position doesn't exist." << endl;
-        return;
-    }
-    int count = 0;
-    while (temp != NULL && count < pos - 1) { // Traverse till before position of desired node
+    // traversing to the node just before the desired position
+    for (int i = 0; i < pos - 1; i++)
+    {
         temp = temp->next;
-        count++;
     }
 
-    // position invalid or last node
-    if (temp == NULL || temp->next == NULL) {
-        cout << "Position doesn't exist." << endl;
-        return;
-    }
-
-    // `temp->next` node ko delete karna:
-    Node *toDelete = temp->next;
-    temp->next = temp->next->next;
-    delete toDelete;
-
+    Node *next = temp->next->next; // setting next pointer to point to the node after the node user want to delete
+    delete temp->next;             // deleting the node
+    temp->next = next;             // setting the next of the temp node (the node just before the desired node) to the node which is after the node which user deleted
     cout << "Node successfully deleted at position " << pos << endl;
 }
 
