@@ -120,7 +120,31 @@ void delete_at(Node *&head, const int pos) // fn to delete a node at a specific 
     temp->next = next;             // setting the next of the temp node (the node just before the desired node) to the node which is after the node which user deleted
     cout << "Node successfully deleted at position " << pos << endl;
 }
-
+void delete_data(Node *&head,int data) {
+    if (head == NULL) {                    //if list is empty
+        cout << "List is empty" << endl;
+        return;                            // Exit the function
+    }
+    if (head->data == data) {                         //if data is present on first node
+        Node *temp = head;                            // Save the first node
+        head=head->next;                              // Move to next node
+        delete temp;                                  //delete the first node
+        cout << "Node with value = " <<data<<" Deleted!!! " << endl;
+        return;                                       // Exit the function
+    }
+    Node *current = head;
+    while (current->next != NULL) {        //Traversing list till END / Searching in List
+        if (current->next->data == data) { // Check if the data in the next node matches the value to be deleted
+            Node *temp = current->next;    // Save the node to be deleted
+            current->next = temp->next;    // Bypass to next node without disconnecting list
+            delete temp;                   // Free Memory / Deleting Memory
+            cout << "Node with value = " <<data<<" Deleted!!! " << endl;
+            return;                        // Exit the function
+        }
+        current = current->next;            // Move to next node
+    }
+    cout << "Node with value = " <<data<<" Not Found!!! " << endl;
+}
 void delete_end(Node *&head) // fn to delete the last node
 {
     Node *temp = head; // storing head in temp pointer
