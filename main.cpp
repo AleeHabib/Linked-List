@@ -174,7 +174,19 @@ void delete_end(Node *&head) // fn to delete the last node
     cout << "Last node successfully deleted." << endl;
     // doesn't require a return as there isn't any code after this case (more than one node) anyways
 }
-
+Node *search(Node *head, const int data)
+{ // fn to search/traverse until the desired node is found -> returns the pointer of that node
+    Node *current = head;
+    while (current) // traversing
+    {
+        if (current->data == data)
+        {
+            return current; // exits the loop with the pointer of the found node
+        }
+        current = current->next;
+    }
+    return NULL; // if node not found
+}
 void traverse(Node *head) // function to traverse through each node
 {
     Node *current = head;
@@ -188,6 +200,7 @@ void traverse(Node *head) // function to traverse through each node
 int main()
 {
     int position, data, choice;
+    Node *result;
     do
     {
         cout << "----------Menu-------" << endl; // Menu that showing option for user
@@ -243,7 +256,27 @@ int main()
             delete_data(head, data);
             break;
         case 8:
-            traverse(head); // Calling traverse fn that print linked list
+            if (head == NULL)
+            {
+                cout << "List doesn't exist." << endl;
+            }
+            else
+            {
+                traverse(head); // Calling traverse fn that print linked list
+            }
+            break;
+        case 9:
+            cout << "Enter the data you want to search: ";
+            cin >> data;
+            result = search(head, data); // will either have pointer or NULL stored in result
+            if (result)
+            {
+                cout << result->data << " found at position " << result << endl;
+            }
+            else
+            {
+                cout << data << " not found." << endl;
+            }
             break;
         case 10:
             cout << "There are " << countNodes(head) << " elements in your list." << endl;
@@ -252,7 +285,7 @@ int main()
             cout << "Exiting..." << endl; // Exiting from program
             exit(0);
         default:
-            cout << "Invalid choice!!!" << endl; // if user input invalid option
+            cout << "Invalid choice." << endl; // if user input invalid option
         }
     } while (choice != 11);
     return 0;
